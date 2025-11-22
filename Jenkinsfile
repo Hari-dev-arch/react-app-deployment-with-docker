@@ -1,14 +1,24 @@
 pipeline {
     agent any
 
+    triggers {
+        githubPush()
+    }
+
     stages {
-        stage ('changing the file permission') {
+        stage('Checkout') {
             steps {
-                sh ' chmod +x build.sh'
+                checkout scm
             }
         }
 
-        stage ('executing the file') {
+        stage('changing the file permission') {
+            steps {
+                sh 'chmod +x build.sh'
+            }
+        }
+
+        stage('executing the file') {
             steps {
                 sh './build.sh'
             }
